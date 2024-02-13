@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SerialFi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="scripts/jquery-3.7.1.slim.min.js"></script>
+    <script src="scripts/websocket.js"></script>
+  </head>
+
+  <body>
+    <div class="box">
+      <div class="box-container">
+        <div class="topnav">
+          <div class="flex-title">
+            <h1>SerialFi v0.1</h1>
+          </div>
+          <div class="flex-baud">
+            <label for="baud">Select baud:</label>
+            <select id="baud" name="baud">
+                <option value="4800">4800</option>
+                <option value="9600">9600</option>
+                <option value="14400">14400</option>
+                <option value="19200">19200</option>
+                <option value="28800">28800</option>
+                <option value="38400">38400</option>
+                <option value="57600">57600</option>
+                <option value="115200">115200</option>
+            </select>
+          </div>
+        </div>
+        <div class="content">
+          <div class="wrapper"><textarea readonly id="console"></textarea></div>
+        </div>
+        <div class="wrapper">
+          <input type="text" id="command" placeholder="type command here ..." autocomplete="off">
+          <button id="send" class="btn-primary" type="submit">Send</button>
+        </div>
+      </div>
+    </div>
+  </body>
+  </html>

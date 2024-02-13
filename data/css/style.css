@@ -1,0 +1,116 @@
+body {
+  margin: 0;
+  font-family: system-ui;
+  font-size: 1rem;
+  height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+textarea {
+  font-family: monospace;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
+  background-color: #f4f7f8;
+  border: 0px;
+  border-left: 8px solid #cc7722;
+  padding: 0.4rem;
+  height: 100%!important;
+  flex: 1 1 auto;
+}
+
+input {
+  line-height: 2rem;
+  font-size: 1rem;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  border-radius: 6px;
+  border-width: 1px;
+  border-color: rgba(13, 110, 253, 0.5);
+}
+
+input[type="text"]:focus,
+textarea:focus {
+  outline: 0;
+  background: #eee;
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+
+.box {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.box-container {
+  display: contents;
+}
+
+.topnav {
+  display: flex;
+  overflow: hidden;
+  background-color: #143642;
+  text-align: center;
+  color: white;
+  justify-content: center;
+  padding-top: 0.4rem;
+  padding-bottom: 0.5rem;
+  flex: 0 1 auto;
+}
+
+.content {
+  flex: 1 1 auto;
+  height: 100%;
+}
+
+.content div {
+  height: 100%;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  border-radius: 5px;
+  width: 5rem;
+  margin-left: 2px;
+  font-size: 1rem;
+}
+
+.btn-primary:hover {
+  color: #ff0;
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
+
+.wrapper {
+  display: flex;
+}
+
+.wrapper input[type="text"] {
+  flex: 1 1 auto;
+}
+
+.wrapper textarea {
+  flex: 1 1 auto;
+}
+
+.flex-title {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+
+.flex-baud {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem;
+  flex: 0 auto;
+}
