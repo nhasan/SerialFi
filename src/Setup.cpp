@@ -8,9 +8,7 @@ const char *deviceName;
 settings eeprom;
 SoftwareSerial peer(D2, D1);
 
-void configModeCallback (AsyncWiFiManager *myWiFiManager) {
-  Serial.printf(PSTR("Starting in AP config mode: ssid=%s, password=%s\n"),
-    myWiFiManager->getConfigPortalSSID().c_str(), deviceName);
+void configModeCallback (AsyncWiFiManager *wiFiManager) {
 }
 
 void setup() {
@@ -37,7 +35,7 @@ void setup() {
   WiFi.setAutoConnect(true);
   WiFi.setAutoReconnect(true);
   
-  Serial.printf(PSTR("\n%s version %s\n"), deviceName, SERIALFI_VERSION);
+  Serial.println(deviceName);
 
   AsyncWiFiManager wifiManager(&server, &dns);
   //wifiManager.resetSettings();
@@ -45,9 +43,12 @@ void setup() {
   wifiManager.setConfigPortalTimeout(300);
   wifiManager.setAPCallback(configModeCallback);
   char ssid[17];
-  sprintf(ssid, "%s-%04X", deviceName, ESP.getChipId() & 0xFFFF);
+  char passwd[8];
+  sprintf(passwd, "%04X", ESP.getChipId() & 0xFFFF);
+  sprintf(ssid, "%s-%s", deviceName, passwd);
   Serial.println(F("Connecting with WiFiManager."));
-  wifiManager.autoConnect(ssid, deviceName);
+  Serial.printf(PSTR("AP: ssid=%s, password=%s\n"), ssid, passwd);
+  wifiManager.autoConnect(ssid, passwd);
 
   if(WiFi.status() != WL_CONNECTED) {
       Serial.println(F("Failed to connect to WiFi. Restarting."));

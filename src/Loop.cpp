@@ -1,22 +1,29 @@
 #include "SerialFi.h"
 
-const byte bufsize = 64;
-const char newline = '\n';
-char buffer[bufsize];
+#define BUF_SIZE 128
 
-byte recvData(char *buf, byte len) {
-    byte i = peer.readBytesUntil('\n', buf, len-1);
-    buf[i] = '\0';
-    while(isspace(buf[i-1])) {
-        buf[--i] = '\0';
-    }
-    return i;
-}
+const char newline = '\n';
+CircularBuffer<char, BUF_SIZE> txbuf;
 
 void loop() {
-    byte len = recvData(buffer, bufsize);
-    if (len > 0) {
-        sendToAllClients(buffer);
+  static int pos = 0;
+  static char buffer[BUF_SIZE];
+  if (peer.available()) {
+    char c = peer.read();
+    if (c != '\n') {
+      buffer[pos++] = c;
     }
-    ws.cleanupClients();
+    if (c == '\n' || pos == sizeof(buffer)) {
+      while(isspace(buffer[pos-1])) {
+        buffer[--pos] = '\0';
+      }
+      sendToAllClients(buffer);
+      pos = 0;
+    }
+  }
+  if (!txbuf.isEmpty()) {
+    char c = txbuf.shift();
+    peer.write(c);
+  }
+  ws.cleanupClients();
 }

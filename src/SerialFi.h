@@ -1,8 +1,7 @@
 #ifndef SerialFi_h
 #define SerialFi_h
 
-#define SERIALFI_VERSION "0.1"
-#define DEVICE_NAME "SerialFi"
+#define DEVICE_NAME "SerialFi-v0.2"
 #define HTTP_PORT 80
 
 #include <Arduino.h>
@@ -16,6 +15,7 @@
 #include <LittleFS.h>
 #include <SoftwareSerial.h>
 #include <EEPROM.h>
+#include <CircularBuffer.hpp>
 
 #include "utilities.h"
 #include "WebServer.h"
@@ -25,10 +25,11 @@ struct settings {
     uint32 baud;
 };
 
-extern PGM_P deviceName;
+extern const char *deviceName;
 extern AsyncWebServer server;
 extern AsyncWebSocket ws;
 extern SoftwareSerial peer;
 extern settings eeprom;
+extern CircularBuffer<char, 128> txbuf;
 
 #endif

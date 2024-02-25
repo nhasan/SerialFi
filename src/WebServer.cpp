@@ -34,8 +34,13 @@ void handleWebSocketMessage(AsyncWebSocketClient *client, void *arg, uint8_t *da
       Serial.printf_P(PSTR("Changed serial port baud to %d bps\n"), baud);
     } else if (strcmp_P(type, F("passthrough")) == 0) {
       const char* value = doc[F("value")];
-      size_t len = strlen(value);
-      peer.write(value, len);
+      int pos = 0;
+      while (value[pos] != '\0' && !txbuf.isFull()) {
+        txbuf.push(value[pos++]);
+      }
+      if ((value[pos] != '\0' && txbuf.isFull())) {
+        Serial.printf_P(PSTR("Tx buffer was full, only %d chars sent.\n"), pos);
+      }
     }
   }
 }
@@ -48,6 +53,7 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
       JsonDocument doc;
       doc[F("type")] = F("info");
       doc[F("baud")] = eeprom.baud;
+      doc[F("device")] = deviceName;
       serializeJson(doc, json);
       Serial.printf_P(PSTR("Sending to client #%u: %s\n"), client->id(), json);
       ws.text(client->id(), json);

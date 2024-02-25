@@ -2,9 +2,7 @@ var gateway = `ws://${window.location.hostname}/ws`;
 var websocket;
 
 $(document).ready(function () {
-  var send = $("#send");
-  send.on("click", event => onSendClick());
-  send.prop("disabled", true);
+  $("#send").on("click", event => onSendClick());
   $("#command").on("keydown", event => onCommandChange(event));
   $("#baud").on("change", event => onBaudChange());
 
@@ -13,6 +11,9 @@ $(document).ready(function () {
 
 function connectWebSocket(){
   console.log("Connecting to: "+gateway);
+  $("#console").css("border-color", "orange");
+  $("#send").prop("disabled", true);
+  $("#command").prop("disabled", true);
   websocket = new WebSocket(gateway);
   websocket.onopen = onOpen;
   websocket.onclose = onClose;
@@ -22,12 +23,14 @@ function connectWebSocket(){
 function onOpen(event) {
   console.log('Socket connected.');
   $("#console").css("border-color", "green");
+  $("#send").prop("disabled", false);
+  $("#command").prop("disabled", false);
+  $("#command").focus();
 }
 
 function onClose(event) {
-  console.log('Socker disconnected. Will retry connection...');
-  $("#console").css("border-color", "orange");
-  setTimeout(connectWebSocket, 500);
+  console.log('Socket disconnected. Will retry connection...');
+  setTimeout(connectWebSocket, 100);
 }
 
 function onMessage(event) {
@@ -45,32 +48,26 @@ function onMessage(event) {
     $("#console").scrollTop($("#console")[0].scrollHeight);
   } else if (json.type == "info") {
     $("#baud").val(json.baud);
+    $("h1").html(json.device);
   }
 }
 
 function onSendClick() {
-  var command = $("#command").val();
   if (websocket.readyState == 1) {
-    send("passthrough", command)
-    $("#command").val("");
-    $("#send").prop("disabled", true);
+    var val = $("#command").val().trim();
+    if (val.length > 0) {
+      send("passthrough", val)
+    }
   } else {
-    console.log("Send failed: Socket is not connected.");
+    onClose(null);
   }
+  $("#command").val("");
+  $("#command").focus();
 }
 
 function onCommandChange(event) {
-  if (websocket.readyState == 1) {
-    var command = $("#command").val();
-    var send = $("#send");
-    if (command.length > 0) {
-      if (event.which == 13) {
-        send.trigger("click");
-      }
-    }
-    send.prop("disabled", command.length == 0);
-  } else {
-    send.prop("disabled", true);
+  if (event.which == 13) {
+    $("#send").trigger("click");
   }
 }
 
