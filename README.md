@@ -22,6 +22,8 @@ The figure below shows the screenshot of the web interface of SerialFi.
 ## Arduino Shield
 The `arduino` folder contains the Kicad design files for the SerialFi Arduino shield. This shield uses a Wemos D1 Mini or compatible ESP8266 dev board. It also has a small prototyping area with +5V, +3.3V and GND traces.
 
-![Schematic](arduino/serialfi_schematic.svg)
+### Schematic
+![Schematic](arduino/serialfi_schematic.png)
 
+### Rendering
 ![Shield](arduino/serialfi_pcb.png)
