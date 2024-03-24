@@ -34,3 +34,7 @@
 .pio
 .vscode
 
+# Kicad files
+arduino/serialfi-backups
+arduino/fp-info-cache
+
