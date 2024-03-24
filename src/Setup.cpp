@@ -35,7 +35,7 @@ void setup() {
   WiFi.setAutoConnect(true);
   WiFi.setAutoReconnect(true);
   
-  Serial.println(deviceName);
+  Serial.printf(PSTR("%s version %s\n"), deviceName, VERSION);
 
   AsyncWiFiManager wifiManager(&server, &dns);
   //wifiManager.resetSettings();

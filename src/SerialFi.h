@@ -1,7 +1,8 @@
 #ifndef SerialFi_h
 #define SerialFi_h
 
-#define DEVICE_NAME "SerialFi-v0.2"
+#define DEVICE_NAME "SerialFi"
+#define VERSION "0.3"
 #define HTTP_PORT 80
 
 #include <Arduino.h>
